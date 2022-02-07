@@ -13,7 +13,7 @@ git clone --depth=1 https://github.com/RedPill-TTG/redpill-lkm.git
 git clone --depth=1 https://github.com/RedPill-TTG/redpill-load.git
 
 # download syno toolkit
-curl --location "https://sourceforge.net/projects/dsgpl/files/toolkit/DSM7.0/ds.bromolow-7.0.dev.txz/download" --output ds.bromolow-7.0.dev.txz
+curl --location "https://global.download.synology.com/download/ToolChain/toolkit/7.0/bromolow/ds.bromolow-7.0.dev.txz" --output ds.bromolow-7.0.dev.txz
 
 mkdir bromolow
 tar -C./bromolow/ -xf ds.bromolow-7.0.dev.txz usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/lib/modules/DSM-7.0/build
@@ -21,7 +21,7 @@ tar -C./bromolow/ -xf ds.bromolow-7.0.dev.txz usr/local/x86_64-pc-linux-gnu/x86_
 # build redpill-lkm
 cd redpill-lkm
 sed -i 's/   -std=gnu89/   -std=gnu89 -fno-pie/' ../bromolow/usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/lib/modules/DSM-7.0/build/Makefile
-make LINUX_SRC=../bromolow/usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/lib/modules/DSM-7.0/build test-v7
+make LINUX_SRC=../bromolow/usr/local/x86_64-pc-linux-gnu/x86_64-pc-linux-gnu/sys-root/usr/lib/modules/DSM-7.0/build dev-v7
 read -a KVERS <<< "$(sudo modinfo --field=vermagic redpill.ko)" && cp -fv redpill.ko ../redpill-load/ext/rp-lkm/redpill-linux-v${KVERS[0]}.ko || exit 1
 cd ..
 
